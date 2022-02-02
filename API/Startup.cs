@@ -1,3 +1,4 @@
+using Application.Mapping;
 using Application.Queries;
 using Data;
 using Microsoft.AspNetCore.Builder;
@@ -43,6 +44,7 @@ namespace API
             });
             services.AddScoped<ITeamQueries, TeamQueries>();
             services.AddScoped<IPlayerQueries, PLayerQueries>();
+            services.AddAutoMapper(typeof(MappingProfile).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
