@@ -17,9 +17,7 @@ namespace Application.Queries
     {
         Task<List<Team>> GetTeamData(CancellationToken token);
 
-        Task<Team> GetTeamById(short teamId, CancellationToken token);
-
-        Task<List<TeamDto>> GetRoster(CancellationToken token);
+        Task<TeamDto> GetTeamDetails(short teamId);
     }
     public class TeamQueries : ITeamQueries
     {
@@ -38,17 +36,20 @@ namespace Application.Queries
             return query;
         }
 
-        public async Task<Team> GetTeamById(short teamId, CancellationToken token)
+        public async Task<TeamDto> GetTeamDetails(short teamId)
         {
-            var query = await _context.Teams.FindAsync(teamId);
-            return query;
-        }
-
-        public async Task<List<TeamDto>> GetRoster(CancellationToken token)
-        {
-            var team = await _context.Teams
-                                .ProjectTo<TeamDto>(_mapper.ConfigurationProvider)
-                                .ToListAsync();
+            var players = _context.Players.AsEnumerable();
+            var team = await _context.Teams.Select(t =>
+                                new TeamDto()
+                                {
+                                    Teamid = t.Teamid,
+                                    Abbr = t.Abbr,
+                                    City = t.City,
+                                    Leagueid = t.Leagueid,
+                                    Name = t.Name,
+                                    Players = (List<Player>)players.Where(p => p.Teamid == t.Teamid).AsEnumerable()
+                                }
+                                ).FirstOrDefaultAsync(x => x.Teamid == teamId);
 
             return team;
         }

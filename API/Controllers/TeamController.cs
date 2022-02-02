@@ -26,18 +26,10 @@ namespace API.Controllers
         }
 
         [HttpGet("{teamId}")]
-        public async Task<ActionResult<Team>> GetTeamById(short teamId)
+        public async Task<ActionResult<TeamDto>> GetTeamDetails(short teamId)
         {
-            var team = await _teamQueries.GetTeamById(teamId, default);
+            var team = await _teamQueries.GetTeamDetails(teamId);
             return Ok(team);
-        }
-
-        [HttpGet("roster")]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<ActionResult<List<TeamDto>>> GetRoster()
-        {
-            var teams = await _teamQueries.GetRoster(default);
-            return Ok(teams);
         }
     }
 }
