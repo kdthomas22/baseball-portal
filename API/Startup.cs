@@ -1,3 +1,4 @@
+using Application.Queries;
 using Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -40,6 +41,8 @@ namespace API
                     policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
                 });
             });
+            services.AddScoped<ITeamQueries, TeamQueries>();
+            services.AddScoped<IPlayerQueries, PLayerQueries>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
