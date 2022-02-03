@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Queries;
+using Domain.Dtos;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,10 +26,17 @@ namespace API.Controllers
         }
 
         [HttpGet("{playerId}")]
-        public async Task<ActionResult<Player>> GetPlayerById(int playerId)
+        public async Task<ActionResult<PlayerDto>> GetPlayerById(int playerId)
         {
             var player = await _playerQueries.GetPlayerById(playerId, default);
             return Ok(player);
+        }
+
+        [HttpGet("stats/{playerId}")]
+        public async Task<ActionResult<PlayerDto>> GetPitcherStats(int playerId)
+        {
+            var stats = await _playerQueries.GetPitcherStats(playerId);
+            return Ok(stats);
         }
     }
 }

@@ -48,8 +48,7 @@ namespace Application.Queries
                                     Leagueid = t.Leagueid,
                                     Name = t.Name,
                                     Players = (List<Player>)players.Where(p => p.Teamid == t.Teamid).AsEnumerable()
-                                }
-                                ).FirstOrDefaultAsync(x => x.Teamid == teamId);
+                                }).FirstOrDefaultAsync(x => x.Teamid == teamId);
 
             return team;
         }
