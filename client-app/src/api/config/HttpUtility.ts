@@ -4,7 +4,6 @@ export default class HttpUtility {
   public static get = async <T>(endPoint: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
     config = {
       url: endPoint,
-      ...HttpUtility.defaultAxiosConfig,
       ...config,
       method: 'GET'
     }
@@ -16,7 +15,6 @@ export default class HttpUtility {
   public static post = async <T>(endPoint: string, data: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
     config = {
       url: endPoint,
-      ...HttpUtility.defaultAxiosConfig,
       ...config,
       method: 'POST',
       data
@@ -29,7 +27,6 @@ export default class HttpUtility {
   public static put = async <T>(endPoint: string, data: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
     config = {
       url: endPoint,
-      ...HttpUtility.defaultAxiosConfig,
       ...config,
       method: 'PUT',
       data
@@ -42,7 +39,6 @@ export default class HttpUtility {
   public static delete = async <T>(endPoint: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
     config = {
       url: endPoint,
-      ...HttpUtility.defaultAxiosConfig,
       ...config,
       method: 'DELETE',
       data
@@ -50,14 +46,6 @@ export default class HttpUtility {
     return HttpUtility.axiosRequest<T>(config).catch(err => {
       throw err
     })
-  }
-
-  private static defaultAxiosConfig: AxiosRequestConfig = {
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json'
-    },
-    withCredentials: true
   }
 
   private static axiosRequest = async <T>(config: any): Promise<AxiosResponse<T>> => {
