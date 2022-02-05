@@ -1,9 +1,13 @@
-import TopNav from "./components/TopNav"
+import AppRouter from "../router/AppRouter";
+import TopNav from "./components/TopNav";
 
 const Layout = () => {
-    return (
-        <TopNav />
-    )
-}
+  return (
+    <>
+      <TopNav />
+      <AppRouter />
+    </>
+  );
+};
 
-export default Layout
+export default Layout;

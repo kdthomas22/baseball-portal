@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Domain.Models;
 
 namespace Domain.Dtos
@@ -21,6 +22,5 @@ namespace Domain.Dtos
         public byte? Number { get; set; }
         public string Headshoturl { get; set; }
         public Team Team { get; set; }
-        public Pstatsplayersseasonsbyteam Stats { get; set; }
     }
 }

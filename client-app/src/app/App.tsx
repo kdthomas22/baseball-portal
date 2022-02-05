@@ -1,8 +1,12 @@
-import Layout from '../layout';
+import { Router } from "react-router";
+import Layout from "../layout";
+import history from "../router/history";
 
 function App() {
   return (
-    <Layout />
+    <Router history={history}>
+      <Layout />
+    </Router>
   );
 }
 

@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Data;
 using Domain.Dtos;
 using Domain.Models;
@@ -17,13 +20,15 @@ namespace Application.Queries
 
         Task<PlayerDto> GetPlayerById(int playerId, CancellationToken token);
 
-        Task<PitcherStatsDto> GetPitcherStats(int playerId);
+        Task<List<StatsDto>> GetPlayerStats(int playerId);
     }
     public class PLayerQueries : IPlayerQueries
     {
         private readonly DataContext _context;
-        public PLayerQueries(DataContext context)
+        private readonly IMapper _mapper;
+        public PLayerQueries(DataContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
 
@@ -53,38 +58,32 @@ namespace Application.Queries
                 Usesname = p.Usesname,
                 Weight = p.Weight,
                 Team = _context.Teams.FirstOrDefault(t => t.Teamid == p.Teamid),
-
-            }).FirstOrDefaultAsync();
+            }).FirstOrDefaultAsync(x => x.Playerid == playerId);
 
             return player;
         }
 
-        //TODO: TRY SWITCH STATEMENT FOR THIS
-        public async Task<PitcherStatsDto> GetPitcherStats(int playerId)
+        public async Task<List<StatsDto>> GetPlayerStats(int playerId)
         {
-            var stats = await _context.Pstatsplayersseasonsbyteams.Select(p => new PitcherStatsDto()
+            var player = _context.Players.FirstOrDefault(x => x.Playerid == playerId);
+            var stats = await _context.Bstatsplayersseasonsbyteams.Select(p => new StatsDto()
             {
                 Playerid = p.Playerid,
                 Yearid = p.Yearid,
                 B1 = p.B1,
                 B2 = p.B2,
                 B3 = p.B3,
-                Er = p.Er,
                 G = p.G,
-                Gs = p.Gs,
                 Hr = p.Hr,
                 Ibb = p.Ibb,
-                L = p.L,
                 Levelid = p.Levelid,
-                Outs = p.Outs,
                 So = p.So,
-                Sv = p.Sv,
                 Teamid = p.Teamid,
                 Ubb = p.Ubb,
-                W = p.W
+                Position = player.Position
             }).Where(x => x.Yearid >= 2019 && x.Yearid <= 2021)
               .OrderBy(x => x.Yearid)
-              .FirstOrDefaultAsync(x => x.Playerid == playerId);
+              .ToListAsync();
 
             return stats;
         }

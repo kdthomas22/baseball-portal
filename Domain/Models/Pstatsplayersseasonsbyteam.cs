@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-#nullable disable
-
-namespace Domain.Models
+﻿namespace Domain.Models
 {
     public partial class Pstatsplayersseasonsbyteam
     {

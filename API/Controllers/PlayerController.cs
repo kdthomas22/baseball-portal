@@ -33,9 +33,9 @@ namespace API.Controllers
         }
 
         [HttpGet("stats/{playerId}")]
-        public async Task<ActionResult<PlayerDto>> GetPitcherStats(int playerId)
+        public async Task<ActionResult<List<StatsDto>>> GetStats(int playerId)
         {
-            var stats = await _playerQueries.GetPitcherStats(playerId);
+            var stats = await _playerQueries.GetPlayerStats(playerId);
             return Ok(stats);
         }
     }
