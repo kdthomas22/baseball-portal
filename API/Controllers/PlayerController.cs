@@ -32,10 +32,10 @@ namespace API.Controllers
             return Ok(player);
         }
 
-        [HttpGet("stats/{playerId}")]
-        public async Task<ActionResult<List<StatsDto>>> GetStats(int playerId)
+        [HttpGet("stats/{playerId}/{yearId}")]
+        public async Task<ActionResult<StatsDto>> GetStats(int playerId, int yearId)
         {
-            var stats = await _playerQueries.GetPlayerStats(playerId);
+            var stats = await _playerQueries.GetPlayerStats(playerId, yearId);
             return Ok(stats);
         }
     }

@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import PlayersApi from "../../api/PlayersApi";
 import { PlayerData } from "../../models/PlayerData";
+import Stats from "./Stats";
 
 const Player = () => {
   const [loading, setLoading] = useState(true);
   const [player, setPlayer] = useState<PlayerData>();
+  const [selectedYear, setSelectedYear] = useState(2019);
   const { playerId } = useParams<{ playerId: string }>();
 
   const getPlayerDetails = (playerId: number) => {
@@ -20,7 +22,16 @@ const Player = () => {
     getPlayerDetails(parseInt(playerId));
   }, []);
 
-  return <div>{player && <p>{player.firstname}</p>}</div>;
+  return (
+    <div>
+      {player && (
+        <>
+          <p>{player.firstname}</p>
+          <Stats playerId={parseInt(playerId)} year={selectedYear} />
+        </>
+      )}
+    </div>
+  );
 };
 
 export default Player;

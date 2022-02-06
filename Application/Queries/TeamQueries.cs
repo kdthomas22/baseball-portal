@@ -31,9 +31,9 @@ namespace Application.Queries
 
         public async Task<List<Team>> GetTeamData(CancellationToken token)
         {
-            var query = await _context.Teams
+            var teams = await _context.Teams
                                 .ToListAsync(default);
-            return query;
+            return teams;
         }
 
         public async Task<TeamDto> GetTeamDetails(short teamId)
