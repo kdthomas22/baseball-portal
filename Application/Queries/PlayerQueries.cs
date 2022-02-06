@@ -14,6 +14,8 @@ namespace Application.Queries
     {
         Task<List<Player>> GetPlayerData(CancellationToken token);
 
+        Task<PaginatedView<Player>> GetPaginatedPlayers(int pageIndex, int pageSize);
+
         Task<PlayerDto> GetPlayerById(int playerId, CancellationToken token);
 
         Task<StatsDto> GetPlayerStats(int playerId, int yearId);
@@ -32,6 +34,20 @@ namespace Application.Queries
         {
             var query = await _context.Players.ToListAsync(default);
             return query;
+        }
+
+        public async Task<PaginatedView<Player>> GetPaginatedPlayers(int pageIndex, int pageSize)
+        {
+            var players = _context.Players;
+
+            int totalCount = players.Count();
+
+            var itemsOnPage = await players.OrderBy(p => p.Firstname)
+                                            .Skip(pageSize * pageIndex)
+                                            .Take(pageSize)
+                                            .ToListAsync();
+
+            return new PaginatedView<Player>(pageIndex, pageSize, totalCount, itemsOnPage);
         }
 
         public async Task<PlayerDto> GetPlayerById(int playerId, CancellationToken token)

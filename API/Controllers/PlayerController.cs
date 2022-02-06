@@ -38,5 +38,12 @@ namespace API.Controllers
             var stats = await _playerQueries.GetPlayerStats(playerId, yearId);
             return Ok(stats);
         }
+
+        [HttpGet("paginated")]
+        public async Task<ActionResult<Player>> GetPaginated([FromQuery] int pageIndex = 0, [FromQuery] int pageSize = 10)
+        {
+            var players = await _playerQueries.GetPaginatedPlayers(pageIndex, pageSize);
+            return Ok(players);
+        }
     }
 }
