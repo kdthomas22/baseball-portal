@@ -1,5 +1,17 @@
-import { Card, CardContent, Container, Link, List } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  Container,
+  Divider,
+  Link,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+} from "@material-ui/core";
+import { useHistory } from "react-router";
 import { useTeams } from "../../state/provider/TeamProvider";
+import { getPosition } from "../../utils/getPosition";
 
 interface Props {
   text: string;
@@ -8,42 +20,34 @@ interface Props {
 const SearchResults = ({ text }: Props) => {
   const { players } = useTeams();
 
-  const matchFound = players
-    .filter(
-      (p) =>
-        p.firstname.toLowerCase().includes(text.toLowerCase()) ||
-        p.lastname.toLowerCase().includes(text.toLowerCase())
-    )
-    .map((player) => (
-      <div>
-        <Card>
-          <CardContent>{player.firstname}</CardContent>
-        </Card>
-      </div>
-    ));
+  const history = useHistory();
 
   return (
     <Container>
-      {players
-        .filter(
-          (p) =>
-            p.firstname.toLowerCase().includes(text.toLowerCase()) ||
-            p.lastname.toLowerCase().includes(text.toLowerCase()) ||
-            p.firstname
-              .concat(p.lastname)
-              .toLowerCase()
-              .split("\\s+")
-              .includes(text.toLowerCase())
-        )
-        .map((results, index) => {
-          return index < 10 ? (
-            <div>
-              <Card>
-                <CardContent>{results.firstname}</CardContent>
-              </Card>
-            </div>
-          ) : null;
-        })}
+      <Paper variant="outlined">
+        <List>
+          {players
+            .filter((p) =>
+              p.joinedName.toLowerCase().includes(text.toLowerCase())
+            )
+            .map((results, index) => {
+              return index < 10 ? (
+                <div>
+                  <ListItem
+                    button
+                    onClick={() => history.push(`/player/${results.playerid}`)}
+                  >
+                    <ListItemText
+                      primary={`${results.firstname} ${results.lastname}: ${results.team.city} ${results.team.name}`}
+                      secondary={getPosition(results.position)}
+                    />
+                  </ListItem>
+                  <Divider />
+                </div>
+              ) : null;
+            })}
+        </List>
+      </Paper>
     </Container>
   );
 };

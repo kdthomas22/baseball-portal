@@ -26,9 +26,9 @@ namespace Domain.Dtos
         public int Position { get; set; }
         public bool isHitter => Position >= 2 && Position <= 10;
         public bool isPitcher => Position == 1 || Position == 11 || Position == 12;
-        public int Obp => isHitter ? (B1 + B2 + B3 + Hr + Ubb + Ibb + Hbp) / (Ab + Ubb + Ibb + Hbp + Sf) : 0;
-        public int Slg => isHitter ? (B1 + 2 * B2 + 3 * B3 + 4 * Hr) / Ab : 0;
-        public int Ops => isHitter ? Obp + Slg : 0;
+        public decimal Obp => isHitter ? (B1 + B2 + B3 + Hr + Ubb + Ibb + Hbp) / (Ab + Ubb + Ibb + Hbp + Sf) : 0;
+        public decimal Slg => isHitter ? (B1 + 2 * B2 + 3 * B3 + 4 * Hr) / Ab : 0;
+        public decimal Ops => isHitter ? Obp + Slg : 0;
         public int Avg => isHitter ? B1 + B2 + B3 + Hr / Ab : 0;
         public int Bb => Ibb + Ubb;
         public int Hits => B1 + B2 + B3 + Hr;

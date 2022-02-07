@@ -18,4 +18,5 @@ export interface PlayerData {
     number: number | null;
     headshoturl: string;
     team: TeamData
+    joinedName: string
 }

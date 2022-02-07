@@ -55,14 +55,14 @@ const Player = () => {
 
   useEffect(() => {
     getPlayerDetails(parseInt(playerId));
-  }, []);
+  }, [playerId]);
 
   return (
     <Container>
       <>
         {player && (
           <>
-            <Card>
+            <Card variant="outlined">
               <CardContent>
                 <img src={player.headshoturl} />
                 <Typography className={classes.header} variant="h3">

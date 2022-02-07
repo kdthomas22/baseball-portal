@@ -1,5 +1,6 @@
 import { createStyles, makeStyles, TextField, Theme } from "@material-ui/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useHistory, useLocation } from "react-router";
 import SearchResults from "../../view/components/SearchResults";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -7,6 +8,7 @@ const useStyles = makeStyles((theme: Theme) =>
     textField: {
       marginLeft: 40,
       marginRight: 40,
+      marginBottom: 10,
     },
   })
 );
@@ -14,6 +16,11 @@ const useStyles = makeStyles((theme: Theme) =>
 const Search = () => {
   const classes = useStyles();
   const [text, setText] = useState("");
+  const location = useLocation();
+
+  useEffect(() => {
+    setText("");
+  }, [location]);
 
   return (
     <>
