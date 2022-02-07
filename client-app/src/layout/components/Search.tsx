@@ -29,6 +29,7 @@ const Search = () => {
           id="outlined-basic"
           variant="outlined"
           placeholder="Search for Players "
+          value={text}
           fullWidth
           onChange={(e) => {
             setText(e.target.value);
