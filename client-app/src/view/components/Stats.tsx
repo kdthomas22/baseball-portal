@@ -74,17 +74,17 @@ const Stats = ({ year, playerId, player }: Props) => {
             <Divider />
             <ListItem>
               <ListSubheader>OBP</ListSubheader>
-              <ListItemText primary={stats?.obp} />
+              <ListItemText primary={getRoundedEra(stats?.obp!)} />
             </ListItem>
             <Divider />
             <ListItem>
               <ListSubheader>SLG</ListSubheader>
-              <ListItemText primary={stats?.slg} />
+              <ListItemText primary={getRoundedEra(stats?.slg)} />
             </ListItem>
             <Divider />
             <ListItem>
               <ListSubheader>OPS</ListSubheader>
-              <ListItemText primary={stats?.ops} />
+              <ListItemText primary={getRoundedEra(stats?.ops)} />
             </ListItem>
             <Divider />
           </List>
