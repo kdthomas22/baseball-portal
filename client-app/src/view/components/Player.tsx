@@ -6,6 +6,7 @@ import {
   FormControl,
   Grid,
   InputLabel,
+  LinearProgress,
   makeStyles,
   MenuItem,
   Select,
@@ -60,58 +61,64 @@ const Player = () => {
   return (
     <Container>
       <>
-        {player && (
-          <>
-            <Card variant="outlined">
-              <CardContent>
-                <img src={player.headshoturl} />
-                <Typography className={classes.header} variant="h3">
-                  {`${player.firstname} ${player.lastname}`}
-                </Typography>
-              </CardContent>
-              <Grid container>
-                <Grid item md={4} xs={12}>
-                  <Typography variant="h4">Bio</Typography>
-                  <Typography>Birth City: {player.birthcity}</Typography>
-                  {player.birthstate && (
-                    <Typography>Birth State: {player.birthstate}</Typography>
-                  )}
-                  <Typography>Birth Country: {player.birthcountry}</Typography>
-                  <Typography>
-                    Birth Date: {format(new Date(player.birthdate!), "P")}
+        {loading ? (
+          <LinearProgress />
+        ) : (
+          player && (
+            <>
+              <Card variant="outlined">
+                <CardContent>
+                  <img src={player.headshoturl} />
+                  <Typography className={classes.header} variant="h3">
+                    {`${player.firstname} ${player.lastname}`}
                   </Typography>
-                  <Typography>
-                    Position: {getPosition(player.position)}
-                  </Typography>
-                </Grid>
-                <Grid item md={4} xs={12}>
-                  <Typography variant="h4">Stats</Typography>
+                </CardContent>
+                <Grid container>
+                  <Grid item md={4} xs={12}>
+                    <Typography variant="h4">Bio</Typography>
+                    <Typography>Birth City: {player.birthcity}</Typography>
+                    {player.birthstate && (
+                      <Typography>Birth State: {player.birthstate}</Typography>
+                    )}
+                    <Typography>
+                      Birth Country: {player.birthcountry}
+                    </Typography>
+                    <Typography>
+                      Birth Date: {format(new Date(player.birthdate!), "P")}
+                    </Typography>
+                    <Typography>
+                      Position: {getPosition(player.position)}
+                    </Typography>
+                  </Grid>
+                  <Grid item md={4} xs={12}>
+                    <Typography variant="h4">Stats</Typography>
 
-                  <Stats
-                    playerId={parseInt(playerId)}
-                    year={selectedYear}
-                    player={player}
-                  />
+                    <Stats
+                      playerId={parseInt(playerId)}
+                      year={selectedYear}
+                      player={player}
+                    />
+                  </Grid>
+                  <Grid item md={4} xs={12}>
+                    <FormControl className={classes.formControl}>
+                      <InputLabel id="year-label">Select Year</InputLabel>
+                      <Select
+                        labelId="year-label"
+                        value={selectedYear}
+                        onChange={(e) =>
+                          setSelectedYear(e.target.value as number)
+                        }
+                      >
+                        <MenuItem value={2019}>2019</MenuItem>
+                        <MenuItem value={2020}>2020</MenuItem>
+                        <MenuItem value={2021}>2021</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
                 </Grid>
-                <Grid item md={4} xs={12}>
-                  <FormControl className={classes.formControl}>
-                    <InputLabel id="year-label">Select Year</InputLabel>
-                    <Select
-                      labelId="year-label"
-                      value={selectedYear}
-                      onChange={(e) =>
-                        setSelectedYear(e.target.value as number)
-                      }
-                    >
-                      <MenuItem value={2019}>2019</MenuItem>
-                      <MenuItem value={2020}>2020</MenuItem>
-                      <MenuItem value={2021}>2021</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </Card>
-          </>
+              </Card>
+            </>
+          )
         )}
       </>
     </Container>

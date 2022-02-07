@@ -35,7 +35,7 @@ const Stats = ({ year, playerId, player }: Props) => {
 
   useEffect(() => {
     getStats(playerId, year);
-  }, [year]);
+  }, [year, playerId]);
 
   return (
     <Container>
