@@ -1,7 +1,10 @@
 import AppRouter from "../router/AppRouter";
-import { ThemeProvider, createTheme } from "@material-ui/core";
+import { ThemeProvider, createTheme, Button } from "@material-ui/core";
+import { useHistory } from "react-router";
+import Search from "./components/Search";
 
 const Layout = () => {
+  const history = useHistory();
   const theme = createTheme({
     typography: {
       fontFamily: "Oswald",
@@ -10,6 +13,8 @@ const Layout = () => {
   return (
     <>
       <ThemeProvider theme={theme}>
+        <Button onClick={() => history.push("/")}>Home</Button>
+        <Search />
         <AppRouter />
       </ThemeProvider>
     </>

@@ -9,6 +9,7 @@ import {
   ListSubheader,
   makeStyles,
   Paper,
+  Typography,
 } from "@material-ui/core";
 import { useHistory } from "react-router";
 import { useTeams } from "../../state/provider/TeamProvider";
@@ -43,10 +44,10 @@ const Home = () => {
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6} md={6} spacing={3}>
           <Paper variant="outlined">
+            <Typography className={classes.subheader}>
+              American League
+            </Typography>
             <List>
-              <ListSubheader className={classes.subheader}>
-                American League
-              </ListSubheader>
               {americanLeague.map((t) => (
                 <>
                   <ListItem
@@ -63,10 +64,10 @@ const Home = () => {
         </Grid>
         <Grid item xs={12} sm={6} md={6} spacing={3}>
           <Paper variant="outlined">
+            <Typography className={classes.subheader}>
+              National League
+            </Typography>
             <List>
-              <ListSubheader className={classes.subheader}>
-                National League
-              </ListSubheader>
               {nationalLeague.map((t) => (
                 <>
                   <ListItem

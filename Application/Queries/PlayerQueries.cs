@@ -131,6 +131,8 @@ namespace Application.Queries
                 Levelid = p.Levelid,
                 So = p.So,
                 Ab = p.Ab,
+                Sf = p.Sf,
+                Hbp = p.Hbp,
                 Teamid = p.Teamid,
                 Ubb = p.Ubb,
                 Position = player.Position

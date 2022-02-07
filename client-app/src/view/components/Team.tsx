@@ -3,14 +3,15 @@ import { useHistory, useParams } from "react-router";
 import TeamApi from "../../api/TeamApi";
 import { TeamDetails } from "../../models/TeamDetails";
 import {
+  Avatar,
+  Button,
   Container,
   makeStyles,
-  TableContainer,
-  TableHead,
   Typography,
 } from "@material-ui/core";
 import MaterialTable from "material-table";
 import { PlayerData } from "../../models/PlayerData";
+import { getPosition } from "../../utils/getPosition";
 
 const useStyles = makeStyles({
   header: {
@@ -44,9 +45,7 @@ const Team = () => {
   const columns: any = [
     {
       field: "headshoturl",
-      render: (rowData: PlayerData) => (
-        <img src={rowData.headshoturl} className={classes.image} />
-      ),
+      render: (rowData: PlayerData) => <Avatar src={rowData.headshoturl} />,
     },
     {
       title: "First Name",
@@ -101,12 +100,22 @@ const Team = () => {
     {
       title: "Position",
       field: "position",
+      render: (rowData: PlayerData) => (
+        <Typography>{getPosition(rowData.position)}</Typography>
+      ),
     },
     {
       title: "Number",
       field: "number",
       render: (rowData: PlayerData) => (
         <Typography>{rowData.number} </Typography>
+      ),
+    },
+    {
+      render: (rowData: PlayerData) => (
+        <Button onClick={() => history.push(`/player/${rowData.playerid}`)}>
+          Bio/Stats{" "}
+        </Button>
       ),
     },
   ];

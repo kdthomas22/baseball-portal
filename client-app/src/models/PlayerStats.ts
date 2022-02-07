@@ -23,9 +23,9 @@ export interface PlayerStats {
     position: number;
     isHitter: boolean;
     isPitcher: boolean;
-    oBP: number;
-    sLG: number;
-    oPS: number;
+    obp: number;
+    slg: number;
+    ops: number;
     avg: number;
     bB: number;
     hits: number;
