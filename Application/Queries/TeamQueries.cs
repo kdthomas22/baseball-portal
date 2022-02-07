@@ -15,9 +15,9 @@ namespace Application.Queries
 {
     public interface ITeamQueries
     {
-        Task<List<Team>> GetTeamData(CancellationToken token);
+        Task<List<TeamDto>> GetTeamData(CancellationToken token);
 
-        Task<TeamDto> GetTeamDetails(short teamId);
+        Task<TeamDto> GetTeamDetails(short teamId, CancellationToken token);
     }
     public class TeamQueries : ITeamQueries
     {
@@ -29,16 +29,23 @@ namespace Application.Queries
             _mapper = mapper;
         }
 
-        public async Task<List<Team>> GetTeamData(CancellationToken token)
+        public async Task<List<TeamDto>> GetTeamData(CancellationToken token)
         {
-            var teams = await _context.Teams
-                                .ToListAsync(default);
+            var teams = await _context.Teams.Select(t =>
+                                new TeamDto()
+                                {
+                                    Teamid = t.Teamid,
+                                    Abbr = t.Abbr,
+                                    City = t.City,
+                                    Leagueid = t.Leagueid,
+                                    Name = t.Name,
+                                }).ToListAsync();
             return teams;
         }
 
-        public async Task<TeamDto> GetTeamDetails(short teamId)
+        public async Task<TeamDto> GetTeamDetails(short teamId, CancellationToken token)
         {
-            var players = _context.Players.AsEnumerable();
+            var players = _context.Players;
             var team = await _context.Teams.Select(t =>
                                 new TeamDto()
                                 {
@@ -47,7 +54,7 @@ namespace Application.Queries
                                     City = t.City,
                                     Leagueid = t.Leagueid,
                                     Name = t.Name,
-                                    Players = (List<Player>)players.Where(p => p.Teamid == t.Teamid).AsEnumerable()
+                                    Players = (List<Player>)players.Where(p => p.Teamid == t.Teamid)
                                 }).FirstOrDefaultAsync(x => x.Teamid == teamId);
 
             return team;

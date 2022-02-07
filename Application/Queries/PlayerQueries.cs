@@ -5,40 +5,75 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Data;
 using Domain.Dtos;
-using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Queries
 {
     public interface IPlayerQueries
     {
-        Task<List<Player>> GetPlayerData(CancellationToken token);
+        Task<List<PlayerDto>> GetPlayerData(CancellationToken token);
 
-        Task<PaginatedView<Player>> GetPaginatedPlayers(int pageIndex, int pageSize);
+        Task<PaginatedView<PlayerDto>> GetPaginatedPlayers(int pageIndex, int pageSize, CancellationToken token);
 
         Task<PlayerDto> GetPlayerById(int playerId, CancellationToken token);
 
-        Task<StatsDto> GetPlayerStats(int playerId, int yearId);
+        Task<StatsDto> GetPlayerStats(int playerId, int yearId, CancellationToken token);
     }
-    public class PLayerQueries : IPlayerQueries
+    public class PlayerQueries : IPlayerQueries
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public PLayerQueries(DataContext context, IMapper mapper)
+        public PlayerQueries(DataContext context, IMapper mapper)
         {
             _mapper = mapper;
             _context = context;
         }
 
-        public async Task<List<Player>> GetPlayerData(CancellationToken token)
+        public async Task<List<PlayerDto>> GetPlayerData(CancellationToken token)
         {
-            var query = await _context.Players.ToListAsync(default);
+            var query = await _context.Players.Select(p => new PlayerDto()
+            {
+                Playerid = p.Playerid,
+                Bats = p.Bats,
+                Birthcity = p.Birthcity,
+                Birthcountry = p.Birthcountry,
+                Birthdate = p.Birthdate,
+                Birthstate = p.Birthstate,
+                Firstname = p.Firstname,
+                Headshoturl = p.Headshoturl,
+                Height = p.Height,
+                Lastname = p.Lastname,
+                Number = p.Number,
+                Position = p.Position,
+                Throws = p.Throws,
+                Usesname = p.Usesname,
+                Weight = p.Weight,
+                Team = _context.Teams.FirstOrDefault(t => t.Teamid == p.Teamid),
+            }).ToListAsync(default);
             return query;
         }
 
-        public async Task<PaginatedView<Player>> GetPaginatedPlayers(int pageIndex, int pageSize)
+        public async Task<PaginatedView<PlayerDto>> GetPaginatedPlayers(int pageIndex, int pageSize, CancellationToken token)
         {
-            var players = _context.Players;
+            var players = _context.Players.Select(p => new PlayerDto()
+            {
+                Playerid = p.Playerid,
+                Bats = p.Bats,
+                Birthcity = p.Birthcity,
+                Birthcountry = p.Birthcountry,
+                Birthdate = p.Birthdate,
+                Birthstate = p.Birthstate,
+                Firstname = p.Firstname,
+                Headshoturl = p.Headshoturl,
+                Height = p.Height,
+                Lastname = p.Lastname,
+                Number = p.Number,
+                Position = p.Position,
+                Throws = p.Throws,
+                Usesname = p.Usesname,
+                Weight = p.Weight,
+                Team = _context.Teams.FirstOrDefault(t => t.Teamid == p.Teamid),
+            });
 
             int totalCount = players.Count();
 
@@ -47,7 +82,7 @@ namespace Application.Queries
                                             .Take(pageSize)
                                             .ToListAsync();
 
-            return new PaginatedView<Player>(pageIndex, pageSize, totalCount, itemsOnPage);
+            return new PaginatedView<PlayerDto>(pageIndex, pageSize, totalCount, itemsOnPage);
         }
 
         public async Task<PlayerDto> GetPlayerById(int playerId, CancellationToken token)
@@ -75,7 +110,7 @@ namespace Application.Queries
             return player;
         }
 
-        public async Task<StatsDto> GetPlayerStats(int playerId, int yearId)
+        public async Task<StatsDto> GetPlayerStats(int playerId, int yearId, CancellationToken token)
         {
             var player = _context.Players.FirstOrDefault(x => x.Playerid == playerId);
 

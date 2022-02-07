@@ -18,8 +18,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<ActionResult<List<Team>>> GetTeams()
+        public async Task<ActionResult<List<TeamDto>>> GetTeams()
         {
             var teams = await _teamQueries.GetTeamData(default);
             return Ok(teams);
@@ -28,7 +27,7 @@ namespace API.Controllers
         [HttpGet("{teamId}")]
         public async Task<ActionResult<TeamDto>> GetTeamDetails(short teamId)
         {
-            var team = await _teamQueries.GetTeamDetails(teamId);
+            var team = await _teamQueries.GetTeamDetails(teamId, default);
             return Ok(team);
         }
     }

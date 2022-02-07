@@ -1,11 +1,17 @@
 import AppRouter from "../router/AppRouter";
-import TopNav from "./components/TopNav";
+import { ThemeProvider, createTheme } from "@material-ui/core";
 
 const Layout = () => {
+  const theme = createTheme({
+    typography: {
+      fontFamily: "Oswald",
+    },
+  });
   return (
     <>
-      <TopNav />
-      <AppRouter />
+      <ThemeProvider theme={theme}>
+        <AppRouter />
+      </ThemeProvider>
     </>
   );
 };

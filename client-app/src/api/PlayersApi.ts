@@ -6,6 +6,12 @@ class PlayersApi {
 
     private static readonly baseUrl: string = 'http://localhost:5000/Player'
 
+    public getPlayers = async (): Promise<PlayerData[]> => {
+        const endpoint = `${PlayersApi.baseUrl}`
+        const result = await HttpUtility.get<PlayerData[]>(endpoint)
+        return result.data
+    } 
+
     public getPlayerDetails = async (playerId: number): Promise<PlayerData> => {
         const endpoint = `${PlayersApi.baseUrl}/${playerId}`
         const result = await HttpUtility.get<PlayerData>(endpoint)
@@ -17,6 +23,8 @@ class PlayersApi {
         const result = await HttpUtility.get<PlayerStats>(endpoint)
         return result.data
     }
+
+    //public getPaginatedPlayers = async ()
 
 }
 

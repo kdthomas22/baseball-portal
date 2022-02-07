@@ -22,5 +22,6 @@ namespace Domain.Dtos
         public byte? Number { get; set; }
         public string Headshoturl { get; set; }
         public Team Team { get; set; }
+        public string JoinedName => Firstname + "" + Lastname;
     }
 }

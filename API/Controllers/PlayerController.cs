@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Queries;
 using Domain.Dtos;
-using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -19,7 +18,7 @@ namespace API.Controllers
 
         [HttpGet]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<ActionResult<List<Player>>> GetPlayers()
+        public async Task<ActionResult<List<PlayerDto>>> GetPlayers()
         {
             var players = await _playerQueries.GetPlayerData(default);
             return Ok(players);
@@ -35,14 +34,14 @@ namespace API.Controllers
         [HttpGet("stats/{playerId}/{yearId}")]
         public async Task<ActionResult<StatsDto>> GetStats(int playerId, int yearId)
         {
-            var stats = await _playerQueries.GetPlayerStats(playerId, yearId);
+            var stats = await _playerQueries.GetPlayerStats(playerId, yearId, default);
             return Ok(stats);
         }
 
         [HttpGet("paginated")]
-        public async Task<ActionResult<Player>> GetPaginated([FromQuery] int pageIndex = 0, [FromQuery] int pageSize = 10)
+        public async Task<ActionResult<PlayerDto>> GetPaginated([FromQuery] int pageIndex = 0, [FromQuery] int pageSize = 10)
         {
-            var players = await _playerQueries.GetPaginatedPlayers(pageIndex, pageSize);
+            var players = await _playerQueries.GetPaginatedPlayers(pageIndex, pageSize, default);
             return Ok(players);
         }
     }

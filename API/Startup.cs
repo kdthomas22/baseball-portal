@@ -43,7 +43,8 @@ namespace API
                 });
             });
             services.AddScoped<ITeamQueries, TeamQueries>();
-            services.AddScoped<IPlayerQueries, PLayerQueries>();
+            services.AddScoped<IPlayerQueries, PlayerQueries>();
+            services.AddScoped<ISearchQueries, SearchQueries>();
             services.AddAutoMapper(typeof(MappingProfile).Assembly);
         }
 

@@ -14,7 +14,7 @@ namespace Application.Mapping
 
         public MappingProfile()
         {
-
+            CreateMap<Player, PlayerDto>();
         }
     }
 }
