@@ -56,6 +56,7 @@ const Player = () => {
 
   useEffect(() => {
     getPlayerDetails(parseInt(playerId));
+    setSelectedYear(2019);
   }, [playerId]);
 
   return (
